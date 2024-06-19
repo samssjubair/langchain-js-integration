@@ -1,0 +1,57 @@
+Samss Jubair is a software engineer based in Dhaka, Bangladesh, with a diverse range of professional and freelance experiences, primarily in full-stack development and machine learning. Here are the key details about his background and skills:
+
+Contact Information
+Phone: 01624874209
+Email: samssjubair@gmail.com
+Github: samssjubair
+LinkedIn: samssjubair
+Portfolio: samssjubairportfolio
+YouTube: samssjubair
+Professional Experience
+Software Engineer at Strativ BD Ltd, Dhaka (May 2024 - Present)
+
+Developing AI-based CSR web applications for European clients.
+Mentoring junior engineers in Bengali and English.
+Full Stack Software Developer at Onushthan BD, Dhaka (June 2023 - April 2024)
+
+Developed the company website using Next.js, TypeScript, and Redux Toolkit.
+Created REST APIs with Express.js and implemented authentication using next-auth and AWS Cognito.
+Software Developer (Remote) at TDnovo, Finland (September 2021 - May 2023)
+
+Developed ML-based MERN-stack web applications.
+Implemented reusable frontend components and rendered various charts using backend data.
+Freelance Projects
+Halal Explore
+
+A travel website similar to booking.com for a UAE client.
+Led a team of developers and implemented booking and holiday package features.
+UBEhero
+
+A gaming platform registered in England and Wales.
+Built and optimized the front and back end of the website for SEO.
+Sapphire 32
+
+A dual-language website for a Dubai-based real estate client.
+Used Pannellum for interactive 3D images and built both frontend and backend with Next.js.
+Skills
+Languages: JavaScript, TypeScript, C++, C, Python, Java, PHP, HTML, CSS
+Front End: React.js, Next.js, Vue.js, Ant Design, Tailwind CSS, Bootstrap, Material-UI, React Native, Aurelia.js, Vite, Sass, Redux, Redux-Toolkit, React Storybook, Chart.js, Canvas API, YUP
+Back End: Node.js, Express.js, Mongoose, Prisma, Zod
+Database: MongoDB, Postgres, MySQL
+Authentication: Firebase, Next-Auth, AWS Cognito
+Version Control: Git, GitHub
+Other: Android Development, Docker, Jira, Trello, Matlab, Zola, GraphQL, S3 bucket, Firebase, Tanstack Router, Tanstack Query, Zustand, Jest
+Education
+MSc (Engg), Computer Science & Engineering - Mawlana Bhashani Science and Technology University, Tangail (2022-Present)
+BSc (Engg), Computer Science & Engineering - Mawlana Bhashani Science and Technology University, Tangail (2016-2021)
+Training and Miscellaneous
+Conducted multiple offline training sessions on web development.
+Instructed an online ICT course.
+Held various leadership positions in student and charity organizations.
+Problem Solving Profiles
+Leetcode: samssjubair
+CodeChef: samssjubair
+Codeforces: samjub
+Hackerrank: samssjubair
+Stopstalk: samssjubair
+Samss Jubair has a strong technical foundation with extensive experience in web development, machine learning, and various modern web technologies. He has demonstrated leadership and mentoring capabilities, contributing to both professional and community projects.
