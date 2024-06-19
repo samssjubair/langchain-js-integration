@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import  { useState, FormEvent, ChangeEvent } from "react";
 import styled from "styled-components";
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import {
   RunnableSequence,
   RunnablePassthrough,
@@ -12,8 +13,8 @@ import { combineDocuments } from "./utils/combineDocuments";
 import { formatConvHistory } from "./utils/formatConvHistory";
 import { uploadDocuments } from "./utils/upload_kb";
 
-const openAIApiKey = import.meta.env.VITE_OPENAI_API_KEY;
-const llm = new ChatOpenAI({ openAIApiKey });
+const googleAIApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+const llm = new ChatGoogleGenerativeAI({ apiKey: googleAIApiKey });
 
 const standaloneQuestionTemplate = `Given some conversation history (if any) and a question, convert the question to a standalone question. 
 conversation history: {conv_history}
@@ -23,7 +24,7 @@ const standaloneQuestionPrompt = PromptTemplate.fromTemplate(
   standaloneQuestionTemplate
 );
 
-const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Scrimba based on the context provided and the conversation history. Try to find the answer in the context. If the answer is not given in the context, find the answer in the conversation history if possible. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And direct the questioner to email help@scrimba.com. Don't try to make up an answer. Always speak as if you were chatting to a friend.
+const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Samss based on the context provided and the conversation history. Try to find the answer in the context. If the answer is not given in the context, find the answer in the conversation history if possible. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And direct the questioner to email samssjubair@gmail.com. Don't try to make up an answer. Always speak as if you were chatting to a friend.
 context: {context}
 conversation history: {conv_history}
 question: {question}
@@ -35,6 +36,7 @@ const standaloneQuestionChain = standaloneQuestionPrompt
   .pipe(new StringOutputParser());
 
 const retrieverChain = RunnableSequence.from([
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (prevResult: any) => prevResult.standalone_question,
   retriever,
   combineDocuments,
