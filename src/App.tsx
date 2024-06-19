@@ -1,6 +1,7 @@
-import  { useState, FormEvent, ChangeEvent } from "react";
-import styled from "styled-components";
-import { ChatOpenAI } from "@langchain/openai";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, FormEvent, ChangeEvent } from "react";
+import { Button, Input, List, Layout, Form as AntForm, Typography } from "antd";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import {
   RunnableSequence,
   RunnablePassthrough,
@@ -12,8 +13,12 @@ import { combineDocuments } from "./utils/combineDocuments";
 import { formatConvHistory } from "./utils/formatConvHistory";
 import { uploadDocuments } from "./utils/upload_kb";
 
-const openAIApiKey = import.meta.env.VITE_OPENAI_API_KEY;
-const llm = new ChatOpenAI({ openAIApiKey });
+const { Content } = Layout;
+const { TextArea } = Input;
+const { Title } = Typography;
+
+const googleAIApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+const llm = new ChatGoogleGenerativeAI({ apiKey: googleAIApiKey });
 
 const standaloneQuestionTemplate = `Given some conversation history (if any) and a question, convert the question to a standalone question. 
 conversation history: {conv_history}
@@ -23,7 +28,7 @@ const standaloneQuestionPrompt = PromptTemplate.fromTemplate(
   standaloneQuestionTemplate
 );
 
-const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Scrimba based on the context provided and the conversation history. Try to find the answer in the context. If the answer is not given in the context, find the answer in the conversation history if possible. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And direct the questioner to email help@scrimba.com. Don't try to make up an answer. Always speak as if you were chatting to a friend.
+const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Samss based on the context provided and the conversation history. Try to find the answer in the context. If the answer is not given in the context, find the answer in the conversation history if possible. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And direct the questioner to email samssjubair@gmail.com. Don't try to make up an answer. Always speak as if you were chatting to a friend.
 context: {context}
 conversation history: {conv_history}
 question: {question}
@@ -35,6 +40,7 @@ const standaloneQuestionChain = standaloneQuestionPrompt
   .pipe(new StringOutputParser());
 
 const retrieverChain = RunnableSequence.from([
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (prevResult: any) => prevResult.standalone_question,
   retriever,
   combineDocuments,
@@ -73,8 +79,8 @@ const App = () => {
   const [question, setQuestion] = useState<string>("");
   const [conversation, setConversation] = useState<ConversationEntry[]>([]);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
     const userInput = question;
     setQuestion("");
 
@@ -94,99 +100,88 @@ const App = () => {
     // Add AI message
     setConversation((prevConversation) => [
       ...prevConversation,
-      { type: "human", text: userInput },
       { type: "ai", text: response },
     ]);
   };
-  return (
-    <Container>
-      <div>
-        <button onClick={handleButtonClick}>Upload Documents</button>
-      </div>
 
-      <ConversationContainer id="chatbot-conversation-container">
-        {conversation.map((entry, index) => (
-          <SpeechBubble key={index} className={`speech-${entry.type}`}>
-            {entry.text}
-          </SpeechBubble>
-        ))}
-      </ConversationContainer>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          id="user-input"
-          value={question}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setQuestion(e.target.value)
-          }
-          placeholder="Ask a question..."
+  return (
+    <Layout style={{ height: "100vh", padding: "20px" }}>
+      <Content
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          type="primary"
+          onClick={handleButtonClick}
+          style={{ marginBottom: "20px" }}
+        >
+          Upload Documents
+        </Button>
+
+        <Title level={2}>Chat with S-Bot</Title>
+
+        <List
+          style={{
+            width: "100%",
+            maxWidth: "600px",
+            height: "400px",
+            overflowY: "scroll",
+            marginBottom: "20px",
+            backgroundColor: "#f0f2f5",
+            padding: "10px",
+            borderRadius: "8px",
+          }}
+          dataSource={conversation}
+          renderItem={(entry) => (
+            <List.Item
+              style={{
+                justifyContent:
+                  entry.type === "human" ? "flex-start" : "flex-end",
+              }}
+            >
+              <div
+                style={{
+                  padding: "10px 15px",
+                  borderRadius: "20px",
+                  maxWidth: "70%",
+                  backgroundColor:
+                    entry.type === "human" ? "#0084ff" : "#e4e6eb",
+                  color: entry.type === "human" ? "#fff" : "#000",
+                  textAlign: entry.type === "human" ? "left" : "right",
+                }}
+              >
+                {entry.text}
+              </div>
+            </List.Item>
+          )}
         />
-        <Button type="submit">Send</Button>
-      </Form>
-    </Container>
+
+        <AntForm
+          onFinish={handleSubmit}
+          style={{ width: "100%", maxWidth: "600px" }}
+        >
+          <AntForm.Item>
+            <TextArea
+              rows={4}
+              value={question}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                setQuestion(e.target.value)
+              }
+              placeholder="Ask a question..."
+            />
+          </AntForm.Item>
+          <AntForm.Item>
+            <Button type="primary" htmlType="submit" block>
+              Send
+            </Button>
+          </AntForm.Item>
+        </AntForm>
+      </Content>
+    </Layout>
   );
 };
 
 export default App;
-
-// Styled Components
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: Arial, sans-serif;
-`;
-
-const ConversationContainer = styled.div`
-  width: 80%;
-  max-width: 600px;
-  height: 400px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  overflow-y: scroll;
-  margin-bottom: 20px;
-`;
-
-const SpeechBubble = styled.div`
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #f1f1f1;
-
-  &.speech-human {
-    background-color: #e1ffc7;
-    align-self: flex-start;
-  }
-
-  &.speech-ai {
-    background-color: #c7eaff;
-    align-self: flex-end;
-  }
-`;
-
-const Form = styled.form`
-  display: flex;
-  width: 80%;
-  max-width: 600px;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
